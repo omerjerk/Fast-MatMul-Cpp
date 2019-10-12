@@ -1,1 +1,1 @@
-g++ -march=haswell main.cpp -o test
+g++ -O3 -march=haswell main.cpp -o test

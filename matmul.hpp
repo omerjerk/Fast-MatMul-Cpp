@@ -5,11 +5,19 @@
 using namespace std;
 
 template<size_t N>
-void version_1(int mat1[N][N], int mat2[N][N], int result[N][N]) {
-    __m256i vec_multi_res = _mm256_setzero_si256(); //Initialize vector to zero
-    __m256i vec_mat1 = _mm256_setzero_si256(); //Initialize vector to zero
-    __m256i vec_mat2 = _mm256_setzero_si256(); //Initialize vector to zero
+inline void version_naive(int mat1[N][N], int mat2[N][N], int result[N][N]) {
+    for (int i = 0; i < N; ++i) {
+        for (int j = 0; j < N; ++j) {
+            result[i][j] = 0;
+            for (int k = 0; k < N; ++k) {
+                result[i][j] += mat1[i][j];
+            }
+        }
+    }
+}
 
+template<size_t N>
+inline void version_1(__m256i vec_multi_res, __m256i vec_mat1, __m256i vec_mat2, int mat1[N][N], int mat2[N][N], int result[N][N]) {
     int i, j, k;
     for (i = 0; i < N; i++) {
         for (j = 0; j < N; ++j) {
